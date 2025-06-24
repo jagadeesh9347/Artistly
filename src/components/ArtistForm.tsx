@@ -15,8 +15,9 @@ type ArtistFormValues = {
   languages: string[];
   feeRange: string;
   location: string;
-  image: FileList | null;
+  image: FileList | null | undefined; // ✅ FIXED
 };
+
 
 const schema: yup.ObjectSchema<ArtistFormValues> = yup
   .object({
