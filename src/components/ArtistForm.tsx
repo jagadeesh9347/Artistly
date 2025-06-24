@@ -15,7 +15,7 @@ type ArtistFormValues = {
   languages: string[];
   feeRange: string;
   location: string;
-  image: FileList | null | undefined; // ✅ FIXED
+   image?: FileList | null; // ✅ FIXED
 };
 
 
