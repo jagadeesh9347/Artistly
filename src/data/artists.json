@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Aarav Kapoor",
+    "category": "Singer",
+    "location": "Mumbai",
+    "priceRange": "₹20K - ₹50K"
+  },
+  {
+    "id": 2,
+    "name": "Sneha Rao",
+    "category": "Dancer",
+    "location": "Bangalore",
+    "priceRange": "₹10K - ₹25K"
+  },
+  {
+    "id": 3,
+    "name": "Rahul Verma",
+    "category": "Speaker",
+    "location": "Delhi",
+    "priceRange": "₹30K - ₹60K"
+  },
+  {
+    "id": 4,
+    "name": "DJ Arjun",
+    "category": "DJ",
+    "location": "Pune",
+    "priceRange": "₹15K - ₹40K"
+  }
+]
