@@ -15,29 +15,28 @@ const schema = yup.object().shape({
   languages: yup.array().min(1, "Select at least one language"),
   feeRange: yup.string().required("Fee range is required"),
   location: yup.string().required("Location is required"),
-  image: yup.mixed().nullable().notRequired(), // ✅ Add this line
+  image: yup.mixed().nullable().notRequired(), 
 });
 
 
 export default function ArtistForm() {
   const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      name: "",
-      bio: "",
-      category: [],
-      languages: [],
-      feeRange: "",
-      location: "",
-      image: null,
-    },
-  });
+  register,
+  handleSubmit,
+  formState: { errors },
+  reset
+} = useForm<ArtistFormValues>({
+  resolver: yupResolver(schema),
+  defaultValues: {
+    name: "",
+    bio: "",
+    category: [],
+    languages: [],
+    feeRange: "",
+    location: "",
+    image: null,
+  },
+});
 
   const onSubmit = (data: any) => {
     console.log("Form Submitted:", data);
