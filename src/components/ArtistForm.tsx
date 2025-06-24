@@ -23,20 +23,18 @@ const schema: yup.ObjectSchema<ArtistFormValues> = yup
     name: yup.string().required("Name is required"),
     bio: yup.string().required("Bio is required"),
     category: yup
-      .array()
-      .of(yup.string())
+      .array(yup.string().required("Category cannot be empty")) // Explicitly require string in array
       .min(1, "Select at least one category")
-      .required(),
+      .required("Category is required"),
     languages: yup
-      .array()
-      .of(yup.string())
+      .array(yup.string().required("Language cannot be empty")) // Explicitly require string in array
       .min(1, "Select at least one language")
-      .required(),
+      .required("Language is required"),
     feeRange: yup.string().required("Fee range is required"),
     location: yup.string().required("Location is required"),
     image: yup.mixed<FileList>().nullable().notRequired(),
   })
-  .required(); // ✅ Fix: makes schema compatible
+  .required();
 
 export default function ArtistForm() {
   const {
@@ -71,42 +69,69 @@ export default function ArtistForm() {
       <h2 className="text-2xl font-bold">🎙️ Artist Onboarding</h2>
 
       <div>
-        <label>Name</label>
-        <input {...register("name")} className="block w-full border p-2 rounded" />
-        <p className="text-red-500 text-sm">{errors.name?.message}</p>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+        <input
+          id="name"
+          {...register("name")}
+          className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+        <p className="text-red-500 text-sm mt-1">{errors.name?.message}</p>
       </div>
 
       <div>
-        <label>Bio</label>
-        <textarea {...register("bio")} className="block w-full border p-2 rounded" />
-        <p className="text-red-500 text-sm">{errors.bio?.message}</p>
+        <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
+        <textarea
+          id="bio"
+          {...register("bio")}
+          rows={4}
+          className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+        <p className="text-red-500 text-sm mt-1">{errors.bio?.message}</p>
       </div>
 
       <div>
-        <label>Category</label>
-        {categories.map((cat) => (
-          <label key={cat} className="block">
-            <input type="checkbox" value={cat} {...register("category")} className="mr-2" />
-            {cat}
-          </label>
-        ))}
-        <p className="text-red-500 text-sm">{errors.category?.message}</p>
+        <label className="block text-sm font-medium text-gray-700">Category</label>
+        <div className="mt-1 grid grid-cols-2 gap-2">
+          {categories.map((cat) => (
+            <label key={cat} className="inline-flex items-center">
+              <input
+                type="checkbox"
+                value={cat}
+                {...register("category")}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded"
+              />
+              <span className="ml-2 text-gray-700">{cat}</span>
+            </label>
+          ))}
+        </div>
+        <p className="text-red-500 text-sm mt-1">{errors.category?.message}</p>
       </div>
 
       <div>
-        <label>Languages Spoken</label>
-        {languages.map((lang) => (
-          <label key={lang} className="block">
-            <input type="checkbox" value={lang} {...register("languages")} className="mr-2" />
-            {lang}
-          </label>
-        ))}
-        <p className="text-red-500 text-sm">{errors.languages?.message}</p>
+        <label className="block text-sm font-medium text-gray-700">Languages Spoken</label>
+        <div className="mt-1 grid grid-cols-2 gap-2">
+          {languages.map((lang) => (
+            <label key={lang} className="inline-flex items-center">
+              <input
+                type="checkbox"
+                value={lang}
+                {...register("languages")}
+                className="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded"
+              />
+              <span className="ml-2 text-gray-700">{lang}</span>
+            </label>
+          ))}
+        </div>
+        <p className="text-red-500 text-sm mt-1">{errors.languages?.message}</p>
       </div>
 
       <div>
-        <label>Fee Range</label>
-        <select {...register("feeRange")} className="block w-full border p-2 rounded">
+        <label htmlFor="feeRange" className="block text-sm font-medium text-gray-700">Fee Range</label>
+        <select
+          id="feeRange"
+          {...register("feeRange")}
+          className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        >
           <option value="">Select Fee Range</option>
           {feeRanges.map((fee) => (
             <option key={fee} value={fee}>
@@ -114,23 +139,32 @@ export default function ArtistForm() {
             </option>
           ))}
         </select>
-        <p className="text-red-500 text-sm">{errors.feeRange?.message}</p>
+        <p className="text-red-500 text-sm mt-1">{errors.feeRange?.message}</p>
       </div>
 
       <div>
-        <label>Location</label>
-        <input {...register("location")} className="block w-full border p-2 rounded" />
-        <p className="text-red-500 text-sm">{errors.location?.message}</p>
+        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+        <input
+          id="location"
+          {...register("location")}
+          className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        />
+        <p className="text-red-500 text-sm mt-1">{errors.location?.message}</p>
       </div>
 
       <div>
-        <label>Upload Profile Image (optional)</label>
-        <input type="file" {...register("image")} className="block w-full border p-2 rounded" />
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">Upload Profile Image (optional)</label>
+        <input
+          id="image"
+          type="file"
+          {...register("image")}
+          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        />
       </div>
 
       <button
         type="submit"
-        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        className="w-full bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       >
         Submit
       </button>
