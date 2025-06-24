@@ -8,16 +8,6 @@ const categories = ["Singer", "Dancer", "Speaker", "DJ"];
 const languages = ["English", "Hindi", "Telugu", "Tamil"];
 const feeRanges = ["₹10K - ₹25K", "₹20K - ₹50K", "₹50K - ₹1L"];
 
-const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  bio: yup.string().required("Bio is required"),
-  category: yup.array().min(1, "Select at least one category"),
-  languages: yup.array().min(1, "Select at least one language"),
-  feeRange: yup.string().required("Fee range is required"),
-  location: yup.string().required("Location is required"),
-  image: yup.mixed().nullable().notRequired(), 
-});
-
 type ArtistFormValues = {
   name: string;
   bio: string;
@@ -27,6 +17,20 @@ type ArtistFormValues = {
   location: string;
   image: FileList | null;
 };
+
+const schema: yup.ObjectSchema<ArtistFormValues> = yup.object({
+  name: yup.string().required("Name is required"),
+  bio: yup.string().required("Bio is required"),
+  category: yup.array().of(yup.string()).min(1, "Select at least one category").required(),
+  languages: yup.array().of(yup.string()).min(1, "Select at least one language").required(),
+  feeRange: yup.string().required("Fee range is required"),
+  location: yup.string().required("Location is required"),
+  image: yup
+    .mixed<FileList>()
+    .nullable()
+    .notRequired(),
+});
+
 
 export default function ArtistForm() {
   const {
