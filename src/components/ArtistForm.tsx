@@ -18,6 +18,15 @@ const schema = yup.object().shape({
   image: yup.mixed().nullable().notRequired(), 
 });
 
+type ArtistFormValues = {
+  name: string;
+  bio: string;
+  category: string[];
+  languages: string[];
+  feeRange: string;
+  location: string;
+  image: FileList | null;
+};
 
 export default function ArtistForm() {
   const {
