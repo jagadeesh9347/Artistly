@@ -15,7 +15,9 @@ const schema = yup.object().shape({
   languages: yup.array().min(1, "Select at least one language"),
   feeRange: yup.string().required("Fee range is required"),
   location: yup.string().required("Location is required"),
+  image: yup.mixed().nullable().notRequired(), // ✅ Add this line
 });
+
 
 export default function ArtistForm() {
   const {
